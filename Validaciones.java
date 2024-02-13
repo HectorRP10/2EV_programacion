@@ -125,5 +125,37 @@ public class Validaciones {
         }
         return true;
     }
+       public static boolean validar_fecha(String fecha) {
+       String[] partesFecha = fecha.split("-");
+       if (partesFecha.length != 3) {
+           return false;
+       }
+       int anyo, mes, dia;
+       anyo = Integer.parseInt(partesFecha[2]);
+       mes = Integer.parseInt(partesFecha[1]);
+       dia = Integer.parseInt(partesFecha[0]);
+       if (anyo<1900 || anyo>2007) {
+           return false;
+       }
+       if (mes>12 || mes<1) {
+           return false;
+       }
+       if (dia>31 || dia<1) {
+           return false;
+       }
+       if ((mes == 4 || mes == 6 || mes == 9 || mes == 11) && dia > 30) {
+           return false;
+       }
+       if ((anyo % 4 == 0 && anyo % 100 != 0) || (anyo % 100 == 0 && anyo % 400 == 0)){
+                           return false;
+       }
+       return true;
+   }
+   public static boolean validar_password(String password){
+        if (password.length()<8){
+            return false;
+        }
+        return true;
+   }
 
 }
