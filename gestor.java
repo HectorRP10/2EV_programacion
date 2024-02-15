@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Date;
 import java.time.LocalTime;
+
 public class Gestor {
     private ArrayList<Evento> listado_eventos;
     private Sala[] listado_salas;
@@ -82,19 +83,51 @@ public class Gestor {
     public   void info_inicial(){
         // Crear la lista de asistentes
         listado_asistentes = new ArrayList<>();
-        listado_asistentes.add(new Asistente("pol", "soriano garcía", "dd","dd0","01-02-2012","pol@gmail.com","12345678"));
-        listado_asistentes.add(new Asistente("hugo", "aldeguer garcía", "dd","dd0","11-11-2012","hugo@gmail.com","12345679"));
-        listado_asistentes.add(new Asistente("Sara", "Martínez pérez", "dd","dd0","11-11-2012","hugo@gmail.com","12345679"));
+
+        Asistente asistente1 = new Asistente("pol", "soriano garcía", "dd","dd0","01-02-2012","pol@gmail.com","12345678");
+        listado_asistentes.add(asistente1);
+        Asistente asistente2 = new Asistente("hugo", "aldeguer garcía", "dd","dd0","11-11-2012","hugo@gmail.com","12345679");
+        listado_asistentes.add(asistente2);
+        Asistente asistente3 = new Asistente("Sara", "Martínez pérez", "dd","dd0","11-11-2012","hugo@gmail.com","12345679");
+        listado_asistentes.add(asistente3);
+
+        //Crear lista de evento
+        Sala sala = new Sala("Sala 1", 20);
+        LocalDate fecha_evento1 = LocalDate.of(2024,05,15);
+        LocalTime hora_evento1 = LocalTime.of(18, 30);
+        LocalDate fecha_evento2 = LocalDate.of(2024,04,07);
+        LocalTime hora_evento2 = LocalTime.of(22, 15);
+
+        listado_eventos= new ArrayList<>();
+        Evento evento1 = new Evento("Teatro Caperucita Roja", sala, fecha_evento1, hora_evento1, 25.99, "Teatro", 40);
+        listado_eventos.add(evento1);
+        Evento evento2 = new Evento("Concierto Luis Fonsi", sala, fecha_evento2, hora_evento2, 25.99, "Concierto", 20);
+        listado_eventos.add(evento2);
+
+        //crear listas de reservas
+        Butaca butaca = new Butaca("A4",true,true);
+        LocalTime hora_reserva1 = LocalTime.of(18, 30);
+        LocalDate fecha_reserva1 = LocalDate.of(2024,01,07);
+        listado_reservas=new ArrayList<>();
+        Reserva reserva1 = new Reserva("sas",asistente1,evento1,butaca,hora_reserva1,fecha_reserva1);
+        listado_reservas.add(reserva1);
+        Reserva reserva2 = new Reserva("sas",asistente2,evento2,butaca,hora_reserva1,fecha_reserva1);
+        listado_reservas.add(reserva2);
+        Reserva reserva3 = new Reserva("sas",asistente1,evento2,butaca,hora_reserva1,fecha_reserva1);
+        listado_reservas.add(reserva3);
+
+        //Crear lista de sala
     }
-    public  void asistente_login(){
+    public  String asistente_login(){
        // Obtener el nombre y la contraseña introducido por teclado
        Scanner sc = new Scanner(System.in);
-       int respuesta=0;
+       String emailBuscado;
+        int respuesta=0;
        boolean login_correcto=false;
        do {
            System.out.println("***DELECTARE MULTIEVENTOS***");
            System.out.print("Introduce un correo: ");
-           String emailBuscado = sc.next();
+            emailBuscado = sc.next();
            System.out.println("Introduce la contraseña: ");
            String contrasena = sc.next();
 
@@ -116,6 +149,7 @@ public class Gestor {
         if (!login_correcto && respuesta==2) {
             asistente_registro();
         }
+        return emailBuscado;
     }
     public  void asistente_registro(){
         Scanner sc = new Scanner(System.in);
@@ -190,7 +224,7 @@ public class Gestor {
         getListado_asistentes().add(new Asistente(nombre,apellidos,dni, telefono, fecha_nacimiento, email, contrasena));
         System.out.println("Bienvenido " + email);
     }
-    public void gestion_reservas(){
+    public void gestion_reservas(String email){
         Scanner sc = new Scanner(System.in);
         String eleccion = "";
         do {
@@ -199,30 +233,48 @@ public class Gestor {
                 System.out.println("---------------------------");
                 System.out.println("1. Mostrar eventos disponibles");
                 System.out.println("2. Mostrar mis reservas");
-                System.out.println("3. Hacer nueva reserva");
-                System.out.println("4. Salir");
+                System.out.println("3. Salir");
                 System.out.println("Elige una opción:");
                 eleccion = sc.nextLine();
                 switch (eleccion) {
                     case "1":
                         mostrar_eventos();
-                        String salir;
+                        String opcion;
                         do {
-                            System.out.println("Para volver atrás pulse 1");
-                            salir= sc.nextLine();
-                        }while (!salir.equals("1"));
+                            System.out.println("***DELECTARE MULTIEVENTOS***");
+                            System.out.println("1. Hacer nueva reserva");
+                            System.out.println("2. Volver atrás");
+                            opcion= sc.nextLine();
+                            switch (opcion){
+                                case "1":
+                                    hacer_reserva();
+                                    break;
+                                default:
+                                    System.out.println("Opción incorrecta, vuelva a intentarlo");
+                            }
+                        }while (!opcion.equals("2"));
                         break;
                     case "2":
+                        mostrar_mis_reservas(email);
+                        do {
+                            System.out.println("***DELECTARE MULTIEVENTOS***");
+                            System.out.println("1.Para volver atrás");
+                            opcion= sc.nextLine();
+                            switch (opcion){
+                                case "1":
+                                    break;
+                                default:
+                                    System.out.println("Opción incorrecta, vuelva a intentarlo");
+                            }
+                        }while (!opcion.equals("1"));
                         break;
                     case "3":
-                        break;
-                    case "4":
                         break;
                     default:
                         System.out.println("Seleccion incorrecta vuelva a intentarlo");
                 }
-            }while (!eleccion.equals("4"));
-        }while (!eleccion.equals("3") && !eleccion.equals("2") && !eleccion.equals("1") && !eleccion.equals("4"));
+            }while (!eleccion.equals("3"));
+        }while (!eleccion.equals("3") && !eleccion.equals("2") && !eleccion.equals("1"));
     }
 
     public void mostrar_eventos(){
@@ -240,15 +292,27 @@ public class Gestor {
         listado_eventos.add(evento2);
 
         for (Evento e : listado_eventos) {
+            System.out.println("-----------------------");
             System.out.println("Nombre: " + e.getNombre());
-            System.out.println("Sala: " + e.getSala().getNombre());
             System.out.println("Fecha: " + e.getFecha());
             System.out.println("Hora: " + e.getHora());
             System.out.println("Precio: " + e.getPrecio());
-            System.out.println("Tipo evento: " + e.getTipo_evento());
-            System.out.println("Capacidad: " + e.getNumero_asistentes_maximo());
-            System.out.println("-----------------------");
-            System.out.println("-----------------------");
         }
+    }
+    public void mostrar_mis_reservas(String email) {
+        for (Reserva reserva : listado_reservas) {
+            if (reserva.getAsistente().getEmail().equals(email)) {
+                System.out.println("-----------------------");
+                System.out.println("Nombre: " + reserva.getAsistente().getNombre());
+                System.out.println("Evento: " + reserva.getEvento().getNombre());
+                System.out.println("Butaca: " + reserva.getButaca());
+                System.out.println("Fecha: " + reserva.getFecha());
+                System.out.println("Hora: " + reserva.getHora());
+            }
+        }
+    }
+
+    public void hacer_reserva(){
+        
     }
 }

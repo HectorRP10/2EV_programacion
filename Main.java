@@ -7,6 +7,7 @@ public class Main {
         Gestor gestorEventos = new Gestor();
         Scanner sc = new Scanner(System.in);
         String eleccion = "";
+        String emailBuscado;
         do {
             System.out.println("***DELECTARE MULTIEVENTOS***");
             System.out.println("---------------------------");
@@ -18,12 +19,12 @@ public class Main {
             switch (eleccion) {
                 case "1":
                     gestorEventos.info_inicial();
-                    gestorEventos.asistente_login();
-                    gestorEventos.gestion_reservas();
+                    emailBuscado=gestorEventos.asistente_login();
+                    gestorEventos.gestion_reservas(emailBuscado);
                     break;
                 case "2":
                     gestorEventos.asistente_registro();
-                    gestorEventos.gestion_reservas();
+                    //gestorEventos.gestion_reservas();
                     break;
                 case "3":
                     System.out.println("Saliendo");
