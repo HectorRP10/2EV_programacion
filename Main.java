@@ -1,5 +1,7 @@
-import java.time.LocalDate;
-import java.util.Date;
+/**
+ * @author Héctor Roviño
+ * @since 15/01/2024
+ */
 import java.util.Scanner;
 
 public class Main {
@@ -8,7 +10,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         String eleccion = "";
         String emailBuscado;
-        do {
+        do { //bucle con 3 opciones, se repetirá hasta elegir una de las tres opciones
             System.out.println("***DELECTARE MULTIEVENTOS***");
             System.out.println("---------------------------");
             System.out.println("1. Login");
@@ -17,16 +19,17 @@ public class Main {
             System.out.println("Elige una opción:");
             eleccion = sc.nextLine();
             switch (eleccion) {
-                case "1":
+                case "1": // Se inicializa la info_inicial, se hace una instancia del asistente_login y para gestionar las reservas
                     gestorEventos.info_inicial();
                     emailBuscado=gestorEventos.asistente_login();
                     gestorEventos.gestion_reservas(emailBuscado);
                     break;
-                case "2":
+                case "2": // Se hace instancia para hacer un nuevo registro y gestion de rservas
                     gestorEventos.asistente_registro();
-                    //gestorEventos.gestion_reservas();
+                    emailBuscado=gestorEventos.asistente_registro();
+                    gestorEventos.gestion_reservas(emailBuscado);
                     break;
-                case "3":
+                case "3": //Opción de salir
                     System.out.println("Saliendo");
                     break;
                 default:

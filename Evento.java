@@ -1,29 +1,30 @@
+/**
+ * @author Héctor Roviño
+ * @since 15/01/2024
+ */
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Evento {
+    //Atributos de la clase Evento
     private String nombre;
-    private String invitado;
     private Sala sala;
     private LocalDate fecha;
     private LocalTime hora;
     private double precio;
     private  String tipo_evento;
     private int numero_asistentes_maximo;
-    private String lista_asistentes;
 
-    //Constructor
+    //Constructor de la clase Evento
     Evento(){}
-    public Evento(String nombre, String invitado, Sala sala, LocalDate fecha, LocalTime hora, double precio, String tipo_evento, int numero_asistentes_maximo, String lista_asistentes) {
+    public Evento(String nombre, Sala sala, LocalDate fecha, LocalTime hora, double precio, String tipo_evento, int numero_asistentes_maximo) {
         this.nombre = nombre;
-        this.invitado = invitado;
         this.sala = sala;
         this.fecha = fecha;
         this.hora = hora;
         this.precio = precio;
         this.tipo_evento = tipo_evento;
         this.numero_asistentes_maximo = numero_asistentes_maximo;
-        this.lista_asistentes = lista_asistentes;
     }
 
     //Getter and Setter
@@ -33,12 +34,7 @@ public class Evento {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    public String getInvitado() {
-        return invitado;
-    }
-    public void setInvitado(String invitado) {
-        this.invitado = invitado;
-    }
+
     public Sala getSala() {
         return sala;
     }
@@ -74,11 +70,5 @@ public class Evento {
     }
     public void setNumero_asistentes_maximo(int numero_asistentes_maximo) {
         this.numero_asistentes_maximo = numero_asistentes_maximo;
-    }
-    public String getLista_asistentes() {
-        return lista_asistentes;
-    }
-    public void setLista_asistentes(String lista_asistentes) {
-        this.lista_asistentes = lista_asistentes;
     }
 }

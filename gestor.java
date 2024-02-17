@@ -1,10 +1,14 @@
+/**
+ * @author Héctor Roviño
+ * @since 29/01/2024
+ */
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Date;
 import java.time.LocalTime;
 
 public class Gestor {
+    //Se crean los diferentes arraays
     private ArrayList<Evento> listado_eventos;
     private Sala[] listado_salas;
     private ArrayList<Asistente> listado_asistentes;
@@ -18,6 +22,7 @@ public class Gestor {
         info_inicial();
     }
 
+    //Getters y setters de los arrays
     public ArrayList<Evento> getListado_eventos() {
         return listado_eventos;
     }
@@ -51,27 +56,7 @@ public class Gestor {
     }
 
 
-   /*void info_inicial(){
-
-        for (int i=0;i<5;i++){
-            System.out.println("Sala"+i);
-            //generar butacas
-
-            ArrayList<Butaca> misbutacas=new ArrayList<>();
-            for (char fila='A'; fila<='F'; fila++){
-                for (int columna=1;columna<=6;columna++){
-                    identificador++;
-                    String pos=fila+columna+"";
-                    System.out.println(fila+""+columna);
-                    misbutacas.add(new Butaca(identificador,pos,));
-                }
-                listado_salas[i]=new Sala("Sala 1", 200, misbutacas,  100.0 );
-            }
-        }
-   }
-    */
-
-
+    //Método para comprobar si el usuario introducido existe
     private  boolean comprobar_usuario(String emailBuscado, String contrasena) {
         for (Asistente asistente : listado_asistentes) {
             if (asistente.getEmail().equals(emailBuscado) &&asistente.getPassword().equals(contrasena)) {
@@ -80,6 +65,8 @@ public class Gestor {
         }
         return  false;
     }
+
+    // Se inicializan y se pone por defecto los arrays, con diferentes ejemplos
     public   void info_inicial(){
         // Crear la lista de asistentes
         listado_asistentes = new ArrayList<>();
@@ -105,19 +92,19 @@ public class Gestor {
         listado_eventos.add(evento2);
 
         //crear listas de reservas
-        Butaca butaca = new Butaca("A4",true,true);
+        Butaca butaca = new Butaca("F3",true,true);
         LocalTime hora_reserva1 = LocalTime.of(18, 30);
         LocalDate fecha_reserva1 = LocalDate.of(2024,01,07);
         listado_reservas=new ArrayList<>();
-        Reserva reserva1 = new Reserva("sas",asistente1,evento1,butaca,hora_reserva1,fecha_reserva1);
+        Reserva reserva1 = new Reserva("1578423loiJUtf*#@",asistente1,evento1,butaca,hora_evento1,fecha_evento1);
         listado_reservas.add(reserva1);
-        Reserva reserva2 = new Reserva("sas",asistente2,evento2,butaca,hora_reserva1,fecha_reserva1);
+        Reserva reserva2 = new Reserva("4789520asPLrdc@*#",asistente2,evento2,butaca,hora_evento2,fecha_evento2);
         listado_reservas.add(reserva2);
-        Reserva reserva3 = new Reserva("sas",asistente1,evento2,butaca,hora_reserva1,fecha_reserva1);
+        Reserva reserva3 = new Reserva("8741023ASdfgtQ@#*",asistente1,evento2,butaca,hora_evento2,fecha_evento2);
         listado_reservas.add(reserva3);
-
-        //Crear lista de sala
     }
+
+    // Método para realizar el login, en el que se debe introducir correctamente el login
     public  String asistente_login(){
        // Obtener el nombre y la contraseña introducido por teclado
        Scanner sc = new Scanner(System.in);
@@ -132,14 +119,14 @@ public class Gestor {
            String contrasena = sc.next();
 
            if (comprobar_usuario(emailBuscado, contrasena)) {
-               System.out.println("Bienvenido " + emailBuscado);
+               System.out.println("Bienvenido " + emailBuscado); //Usuario introducido correctamente
                login_correcto=true;
            } else if (Asistente.es_admin(emailBuscado, contrasena)) {
-               System.out.println("Has accedido como administrador");
+               System.out.println("Has accedido como administrador"); // Acceso como administrador, TODO(implementar acciones especiales)
                login_correcto=true;
            } else {
                System.out.println("Usuario o contraseña incorrecta. Puede ser que no estés registrado, si es así registrese");
-               do {
+               do {   //En caso de error en el login se da la opción de hacer directamente un nuevo registro o reintentar el login
                    System.out.println("1. Si quieres intentar logearte de nuevo ");
                    System.out.println("2. Si quieres hacer un nuevo registro");
                    respuesta = sc.nextInt();
@@ -151,12 +138,14 @@ public class Gestor {
         }
         return emailBuscado;
     }
-    public  void asistente_registro(){
+
+    //Método que sirve para introducir un nuevo usuario
+    public  String asistente_registro(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Sigue los pasos para crear una cuenta: ");
         String nombre, apellidos, dni, email, contrasena, telefono, fecha_nacimiento ;
 
-        do {
+        do { //Se pide y se valida el nombre
             System.out.println("Ingrese su nombre:");
             nombre = sc.nextLine();
             if (Validaciones.validar_nombre(nombre)) {
@@ -165,7 +154,7 @@ public class Gestor {
                 System.out.println("Incorrecto, solo se pueden introducir letras, vuelva a intentarlo");
             }
         } while (!Validaciones.validar_nombre(nombre));
-        do {
+        do { //Se piden y se validan los apellidos
             System.out.println("Ingrese sus apellidos:");
             apellidos = sc.nextLine();
             if (Validaciones.validar_nombre(apellidos)) {
@@ -174,7 +163,7 @@ public class Gestor {
                 System.out.println("Incorrecto, solo se pueden introducir letras, vuelva a intentarlo");
             }
         } while (!Validaciones.validar_nombre(apellidos));
-        do {
+        do { //Se pide y se valida el DNI
             System.out.println("Ingrese su DNI:");
             dni = sc.nextLine();
             if (Validaciones.validar_DNI(dni)) {
@@ -183,7 +172,7 @@ public class Gestor {
                 System.out.println("Incorrecto, vuelva a intentarlo");
             }
         } while (!Validaciones.validar_DNI(dni));
-        do {
+        do { //Se pide y se valida el teléfono
             System.out.println("Ingrese su teléfono:");
             telefono = sc.nextLine();
             if (Validaciones.validar_telefono(telefono)) {
@@ -193,7 +182,7 @@ public class Gestor {
             }
         } while (!Validaciones.validar_telefono(telefono));
 
-        do {
+        do { //Se pide y se valida la fecha de nacimiento, que debe ser mayor de edad
             System.out.println("Introduzca su fecha de nacimiento (dd-mm-yyyy):");
             fecha_nacimiento=sc.nextLine();
             if (Validaciones.validar_fecha(fecha_nacimiento)) {
@@ -203,7 +192,7 @@ public class Gestor {
             }
         } while (!Validaciones.validar_fecha(fecha_nacimiento));
 
-        do {
+        do { //Se pide y se valida el email
             System.out.println("Ingrese su email:");
             email = sc.nextLine();
             if (Validaciones.validar_correo(email)) {
@@ -212,7 +201,7 @@ public class Gestor {
                 System.out.println("Incorrecto, vuelva a intentarlo");
             }
         } while (!Validaciones.validar_correo(email));
-        do {
+        do { //Se pide y se valida la contraseña, que debe tener 8 dígitos mínimo
             System.out.println("Introduzca una contraseña para acceder posteriormente al sistema:");
             contrasena= sc.nextLine();
             if (Validaciones.validar_password(contrasena)) {
@@ -221,9 +210,13 @@ public class Gestor {
                 System.out.println("Incorrecto, vuelva a intentarlo");
             }
         } while (!Validaciones.validar_password(contrasena));
+        //Se añade el nuevo usuario al listado de asistentes
         getListado_asistentes().add(new Asistente(nombre,apellidos,dni, telefono, fecha_nacimiento, email, contrasena));
         System.out.println("Bienvenido " + email);
+        return email;
     }
+
+    //Método que una vez logeado un usuario, da las opciones de hacer una nueva reserva o ver las ya existentes
     public void gestion_reservas(String email){
         Scanner sc = new Scanner(System.in);
         String eleccion = "";
@@ -241,13 +234,16 @@ public class Gestor {
                         mostrar_eventos();
                         String opcion;
                         do {
+                            System.out.println();
                             System.out.println("***DELECTARE MULTIEVENTOS***");
                             System.out.println("1. Hacer nueva reserva");
                             System.out.println("2. Volver atrás");
-                            opcion= sc.nextLine();
+                            opcion= sc.next();
                             switch (opcion){
                                 case "1":
-                                    hacer_reserva();
+                                    hacer_reserva(email);
+                                    hacer_pago();
+                                    Validaciones.generar_token();
                                     break;
                                 default:
                                     System.out.println("Opción incorrecta, vuelva a intentarlo");
@@ -277,6 +273,7 @@ public class Gestor {
         }while (!eleccion.equals("3") && !eleccion.equals("2") && !eleccion.equals("1"));
     }
 
+    //Método que muestra todos los eventos programados
     public void mostrar_eventos(){
         // conciertos, cine, teatro, conferencias
         Sala sala = new Sala("Sala 1", 20);
@@ -299,6 +296,8 @@ public class Gestor {
             System.out.println("Precio: " + e.getPrecio());
         }
     }
+
+    //Método que recorre el array de reservas para mostrar las de un usuario en concreto
     public void mostrar_mis_reservas(String email) {
         for (Reserva reserva : listado_reservas) {
             if (reserva.getAsistente().getEmail().equals(email)) {
@@ -312,7 +311,73 @@ public class Gestor {
         }
     }
 
-    public void hacer_reserva(){
-        
+    //Método para pagar la reserva
+    public void hacer_pago(){
+        int eleccion = 0;
+        Scanner sc=new Scanner(System.in);
+        do {
+            System.out.println("Eliga la opción de pago (1-3):");
+            System.out.println("1. Bizum");
+            System.out.println("2. Paypal");
+            System.out.println("3. Transferencia bancaria");
+            eleccion = sc.nextInt();
+            if (eleccion == 1) {
+                System.out.println("Haga el bizum al número de teléfono de la empresa:612345678");
+            } else if (eleccion == 2) {
+                System.out.println("Pago a través de Paypal");
+            } else if (eleccion == 3) {
+                // se pide que se ingrese el IBAN y se comprueba que se introduzca bien
+                String iban;
+                do {
+                    System.out.println("Ingrese su número de cuenta(IBAN):");
+                    iban = sc.next();
+                    if (!Validaciones.validar_iban(iban)) {
+                        System.out.println("Error: IBAN no válido.");
+                    }
+                } while (!Validaciones.validar_iban(iban));
+
+
+            } else {
+                System.out.println("Error,introduzca un número del 1 al 3, vuelva a intentarlo");
+            }
+        } while (!(eleccion == 1 || eleccion == 2 || eleccion == 3));
+    }
+
+    //Proceso de elección de evento y asiento
+    public void hacer_reserva(String email){
+        String eleccion;
+        Scanner sc=new Scanner(System.in);
+        do {
+            System.out.println("Seleccione el evento: ");
+            System.out.println("1. Caperucita Roja");
+            System.out.println("2. Concierto Luis Fonsi");
+            eleccion=sc.nextLine();
+        }while (!eleccion.equals("1") && !eleccion.equals("2"));
+
+        String asiento;
+        do {
+            System.out.println("Eliga el asiento:");
+            System.out.println("A1 A2 A3 A4 A5 A6");
+            System.out.println("B1 B2 B3 B4 B5 B6");
+            System.out.println("C1 C2 C3 C4 C5 C6");
+            System.out.println("D1 D2 D3 D4 D5 D6");
+            System.out.println("E1 E2 E3 E4 E5 E6");
+            System.out.println("F1 F2 F3 F4 F5 F6");
+            asiento = sc.next().toUpperCase();
+            if (Validaciones.validar_asiento(asiento)) {
+                System.out.println(Butaca.es_accesible(asiento));
+                // Preguntar al usuario si está conforme
+                System.out.println("¿Estás conforme con esta butaca? (S/N)");
+                String respuesta = sc.next().toUpperCase();
+                if (respuesta.equals("S")) {
+                    System.out.println("Butaca " + asiento + " elegida correctamente");
+                    break; // Salir del bucle
+                } else {
+                    System.out.println("Butaca no disponible. Seleccione otra butaca");
+                }
+            } else {
+                System.out.println("Error, butaca no disponible");
+            }
+        }while (true);
     }
 }

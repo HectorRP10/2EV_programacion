@@ -1,10 +1,12 @@
-import org.w3c.dom.ls.LSOutput;
-
+/**
+ * @author Héctor Roviño
+ * @since 15/01/2024
+ */
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Reserva {
-    //Atributos
+    //Atributos de la clase Reserva
     private String id;
     private Asistente asistente;
     private Evento evento;
@@ -12,7 +14,7 @@ public class Reserva {
     private LocalTime hora;
     private LocalDate fecha;
 
-    //constructor
+    //constructor de la clase Reserva
     Reserva(){}
     public Reserva(String id, Asistente asistente, Evento evento, Butaca butaca, LocalTime hora, LocalDate fecha) {
         this.id = id;
@@ -95,7 +97,4 @@ public class Reserva {
             System.out.println("No es posible hacer la reserva");
         }
     }
-
-
-
 }

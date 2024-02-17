@@ -1,24 +1,44 @@
+/**
+ * @author Héctor Roviño
+ * @since 15/01/2024
+ */
+import java.util.ArrayList;
+
 public class Sala {
-    //Atributos
+    //Atributos de la clase Sala
     private String nombre;
     private int capacidad_maxima;
-    private String lista_butacas_disponibles;
-    private int dimension;
+    ArrayList<Butaca> lista_butaca=new ArrayList<>();
+    private double dimension;
     private boolean accesibilidad;
     private String características_acusticas;
     private String observaciones;
 
-    //Constructor
-    Sala(){}
-    public Sala(String nombre, int capacidad_maxima, String lista_butacas_disponibles, int dimension, boolean accesibilidad, String características_acusticas, String observaciones) {
+    //Constructor de la clase Sala
+
+    public Sala(String nombre, int capacidad_maxima) {
         this.nombre = nombre;
         this.capacidad_maxima = capacidad_maxima;
-        this.lista_butacas_disponibles = lista_butacas_disponibles;
+    }
+
+    public Sala(String nombre, int capacidad_maxima, ArrayList<Butaca> lista_butaca, double dimension) {
+        this.nombre = nombre;
+        this.capacidad_maxima = capacidad_maxima;
+        this.lista_butaca = lista_butaca;
+        this.dimension = dimension;
+    }
+
+    public Sala(String nombre, int capacidad_maxima, ArrayList<Butaca> lista_butaca, double dimension, boolean accesibilidad, String características_acusticas, String observaciones) {
+        this.nombre = nombre;
+        this.capacidad_maxima = capacidad_maxima;
+        this.lista_butaca = lista_butaca;
         this.dimension = dimension;
         this.accesibilidad = accesibilidad;
         this.características_acusticas = características_acusticas;
         this.observaciones = observaciones;
     }
+
+    Sala(){}
 
 
     // Getter and Setter
@@ -35,17 +55,21 @@ public class Sala {
     public void setCapacidad_maxima(int capacidad_maxima) {
         this.capacidad_maxima = capacidad_maxima;
     }
-    public String getLista_butacas_disponibles() {
-        return lista_butacas_disponibles;
+
+    public ArrayList<Butaca> getLista_butaca() {
+        return lista_butaca;
     }
-    public void setLista_butacas_disponibles(String lista_butacas_disponibles) {
-        this.lista_butacas_disponibles = lista_butacas_disponibles;
+
+    public void setLista_butaca(ArrayList<Butaca> lista_butaca) {
+        this.lista_butaca = lista_butaca;
     }
-    public int getDimension() {
-        return dimension;
-    }
-    public void setDimension(int dimension) {
+
+    public void setDimension(double dimension) {
         this.dimension = dimension;
+    }
+
+    public double getDimension() {
+        return dimension;
     }
     public boolean isAccesibilidad() {
         return accesibilidad;
@@ -67,6 +91,8 @@ public class Sala {
     }
 
     //Métodos
+
+
     public void comprobar_capacidad(){
         int capacidad=0;
         if (capacidad>capacidad_maxima){

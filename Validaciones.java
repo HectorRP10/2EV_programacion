@@ -1,17 +1,43 @@
+/**
+ * @author Héctor Roviño
+ * @since 15/01/2024
+ */
 import java.math.BigInteger;
+import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Validaciones {
-    public static boolean validar_asiento(String asiento) {
+   public static void generar_token(){
+       // se genera el token
+       System.out.println("El código de reserva es:");
+       int cantidad_letras_numeros = 7;
+       int cantidad_caracter = 3;
+       for (int contador = 0; contador < cantidad_letras_numeros; contador++) {
+           System.out.print((int) (Math.random() * 9));
+       }
+       for (int contador = 0; contador < cantidad_letras_numeros; contador++) {
+           String letra_aleatoria = "aAbcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTvVuUwWxXyYzZ";
+           int eleccion_letra_aleatoria = (int) (Math.random() * letra_aleatoria.length());
+           System.out.print(letra_aleatoria.charAt(eleccion_letra_aleatoria));
+       }
+       for (int contador = 0; contador < cantidad_caracter; contador++) {
+           String caracter = "!@#$%^&*";
+           int eleccion_caracter = (int) (Math.random() * caracter.length());
+           System.out.print(caracter.charAt(eleccion_caracter));
+       }
+   }
+   public static boolean validar_asiento(String asiento) {
         // se definen las diferentes variables
-        String a = "A", b = "B", c = "C";
+        String a = "A", b = "B", c = "C", d="D", e="E", f="F";
         int numero_asiento=0;
         // se comprueba que el asiento sea a,b,c y numero(1-6)
         if (asiento.length() > 1) {
-            if ((a.equals(asiento.substring(0, 1)) || b.equals(asiento.substring(0, 1)) || c.equals(asiento.substring(0, 1))) &&
+            if ((a.equals(asiento.substring(0, 1)) || b.equals(asiento.substring(0, 1)) || c.equals(asiento.substring(0, 1))|| d.equals(asiento.substring(0, 1))|| e.equals(asiento.substring(0, 1))|| f.equals(asiento.substring(0, 1))) &&
                     validar_numero(asiento.substring(1))) {
                 numero_asiento = Integer.parseInt(asiento.substring(1));
                 if (numero_asiento >= 1 && numero_asiento <= 6){
-                    if(!(a.equals(asiento.substring(0, 1))&& numero_asiento==1) && !(b.equals(asiento.substring(0, 1))&& numero_asiento==5) && !(c.equals(asiento.substring(0, 1))&& numero_asiento==6)){
+                    if(!(a.equals(asiento.substring(0, 1))&& numero_asiento==1) && !(b.equals(asiento.substring(0, 1))&& numero_asiento==5) && !(c.equals(asiento.substring(0, 1))&& numero_asiento==6)&& !(d.equals(asiento.substring(0, 1))&& numero_asiento==4)&& !(f.equals(asiento.substring(0, 1))&& numero_asiento==3)){
                         return true;
                     }
                 }
@@ -19,7 +45,7 @@ public class Validaciones {
         }
         return false;
     }
-    public static boolean validar_DNI(String dni) {
+   public static boolean validar_DNI(String dni) {
         // se comprueba que la longitud sea de 9
         if (dni.length() != 9) {
             System.out.println("Error, vuelva a intentarlo");
@@ -40,11 +66,11 @@ public class Validaciones {
             return false;
         }
     }
-    public static char calcular_letra_DNI(int numerosDNI) {
+   public static char calcular_letra_DNI(int numerosDNI) {
         String letras = "TRWAGMYFPDXBNJZSQVHLCKE";
         return letras.charAt(numerosDNI % 23);  // se debe dividir los números del DNI entre 23 para obtener la letra
     }
-    public static boolean validar_numero(String parte_numeros) {
+   public static boolean validar_numero(String parte_numeros) {
         //comprueba si la cadena está vacía
         if ( parte_numeros.isEmpty()) {
             return false;
@@ -58,7 +84,7 @@ public class Validaciones {
         }
         return true;
     }
-    public static boolean validar_correo(String correo){
+   public static boolean validar_correo(String correo){
         // se verifica la estructura del correo
         if (correo.indexOf('@')!=-1){
             if (correo.indexOf('.', correo.indexOf('@')) != -1) {
@@ -69,7 +95,7 @@ public class Validaciones {
         }
         return false;
     }
-    public static boolean validar_iban(String iban) {
+   public static boolean validar_iban(String iban) {
         // Verificación de la longitud
         if (iban.length() != 24) {
             return false;
@@ -103,7 +129,7 @@ public class Validaciones {
         // Verificar si el resultado del módulo es igual a 1
         return resultadoModulo.intValue() == 1;
     }   // iban de ejemplo ES9121000418450200051332
-    public static boolean validar_nombre(String nombre) {
+   public static boolean validar_nombre(String nombre) {
         // se comprueba que la cadena no este vacía
         if(nombre.isEmpty()){
             return false;
@@ -112,20 +138,20 @@ public class Validaciones {
         for (int contador = 0; contador < nombre.length(); contador++) {
             char letra = nombre.charAt(contador);
             int tablaascii = (int) letra;
-            if ((tablaascii < 65 || tablaascii > 90) && (tablaascii < 97 || tablaascii > 122)) {
-                return false;
+            if ((65<tablaascii && tablaascii<90 ) || (97<tablaascii && tablaascii<122) ||(128<tablaascii &&tablaascii<144) ||(160<tablaascii &&tablaascii<165)) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
-    public static boolean validar_telefono(String telefono){
+   public static boolean validar_telefono(String telefono){
         if (telefono.length() != 9 || !validar_numero(telefono)) {
             System.out.println("Error, inténtelo de nuevo");
             return false;
         }
         return true;
     }
-       public static boolean validar_fecha(String fecha) {
+   public static boolean validar_fecha(String fecha) {
        String[] partesFecha = fecha.split("-");
        if (partesFecha.length != 3) {
            return false;
@@ -147,7 +173,7 @@ public class Validaciones {
            return false;
        }
        if ((anyo % 4 == 0 && anyo % 100 != 0) || (anyo % 100 == 0 && anyo % 400 == 0)){
-                           return false;
+           return false;
        }
        return true;
    }
@@ -157,5 +183,5 @@ public class Validaciones {
         }
         return true;
    }
-
 }
+
